@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command":"catkin_make",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": ["$catkin-gcc"],
+			"label": "catkin_make"
+		},
+		
+	]
+}

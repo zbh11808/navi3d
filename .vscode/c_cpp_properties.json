@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/zbh/navi3d/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/zbh/navi3d/src/**",
+                "/home/zbh/navi3d/src/champ/champ/include/**",
+                "/home/zbh/navi3d/src/champ/champ_base/include/**",
+                "/home/zbh/navi3d/src/champ/champ_config/include/**",
+                "/home/zbh/navi3d/src/yocs_velocity_smoother/include/**",
+                "/usr/include/**",
+                "/usr/include/pcl-1.8/pcl/**",
+                "/home/zbh/navi3d/src/fast_planner/**",
+                "${workspaceFolder}/devel/include"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
