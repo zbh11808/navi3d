@@ -181,8 +181,8 @@ int KinodynamicAstar::search(Eigen::Vector3d start_pt, Eigen::Vector3d start_v, 
 
           double dist1 = edt_environment_->evaluateCoarseEDT(pos1, -1.0);
           double dist2 = edt_environment_->evaluateCoarseEDT(pos2, -1.0);
-          //if (dist1 <= margin_ || dist2 >= margin_) {
-          if (dist1 <= margin_){
+          if (dist1 <= margin_ || dist2 >= margin_) {
+          //if (dist1 <= margin_){
             is_occ = true;
 
             break;

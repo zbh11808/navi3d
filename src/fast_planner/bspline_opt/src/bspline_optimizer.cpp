@@ -15,6 +15,8 @@ const int BsplineOptimizer::GRAVITY = (1 << 7);
 const int BsplineOptimizer::GUIDE_PHASE = BsplineOptimizer::SMOOTHNESS | BsplineOptimizer::GUIDE;
 const int BsplineOptimizer::NORMAL_PHASE =
     BsplineOptimizer::SMOOTHNESS | BsplineOptimizer::DISTANCE | BsplineOptimizer::FEASIBILITY | BsplineOptimizer::GRAVITY;
+//const int BsplineOptimizer::NORMAL_PHASE =
+//    BsplineOptimizer::SMOOTHNESS | BsplineOptimizer::DISTANCE | BsplineOptimizer::FEASIBILITY;
 
 void BsplineOptimizer::setParam(ros::NodeHandle& nh) {
   nh.param("optimization/lambda1", lambda1_, -1.0);
