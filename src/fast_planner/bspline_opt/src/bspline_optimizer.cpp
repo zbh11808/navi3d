@@ -224,7 +224,7 @@ void BsplineOptimizer::calcDistanceCost(const vector<Eigen::Vector3d>& q, double
   std::fill(gradient.begin(), gradient.end(), zero);
 
   double dist;
-  Eigen::Vector3d dist_grad, g_zero(0, 0, 0);
+  Eigen::Vector3d dist_grad;
 
   int end_idx = (cost_function_ & ENDPOINT) ? q.size() : q.size() - order_;
 
@@ -345,24 +345,29 @@ void BsplineOptimizer::calcGravityCost(const vector<Eigen::Vector3d>& q, double&
   Eigen::Vector3d zero(0, 0, 0);
   std::fill(gradient.begin(), gradient.end(), zero);
 
-  double grav;
-  Eigen::Vector3d grav_grad, g_zero(0, 0, 0), q_ground;
+  double dist1, dist2;
+  Eigen::Vector3d grav_grad, q_ground0, q_ground1, robo_height;
+  robo_height << 0, 0, roboheight;
 
   int end_idx = (cost_function_ & ENDPOINT) ? q.size() : q.size() - order_;
 
   for (int i = order_; i < end_idx; i++) {
-    q_ground = q[i];
-    q_ground[2] = q_ground[2] - roboheight;
+    q_ground0 = q[i];
+    q_ground1 = q_ground0 - robo_height;
     if (!dynamic_) {
-      edt_environment_->evaluateEDTWithGrad(q_ground, -1.0, grav, grav_grad);
+      dist1 = edt_environment_->evaluateCoarseEDT(q_ground0, -1.0);
+      edt_environment_->evaluateEDTWithGrad(q_ground1, -1.0, dist2, grav_grad);
       if (grav_grad.norm() > 1e-4) grav_grad.normalize();
     } else {
       double time = double(i + 2 - order_) * bspline_interval_ + time_traj_start_;
-      edt_environment_->evaluateEDTWithGrad(q_ground, time, grav, grav_grad);
+      dist1 = edt_environment_->evaluateCoarseEDT(q_ground0, time);
+      edt_environment_->evaluateEDTWithGrad(q_ground1, time, dist2, grav_grad);
     }
-    if (grav > dist1_ || grav < 0) {
-      cost += pow(grav - dist1_, 2);
-      gradient[i] += 2.0 * (grav - dist1_) * grav_grad;
+    //cout << "if" << abs( dist1 - dist2 - (dist0_ - dist1_) ) << endl;
+    //cout << dist1 << "  " << dist2 << endl;
+    if ( abs( dist1 - dist2 - (dist0_ - dist1_) ) < 0.1 && (dist2 > dist1_ || dist2 < 0) ) {
+      cost += pow(dist2 - dist1_, 2);
+      gradient[i] += 2.0 * (dist2 - dist1_) * grav_grad;
     }
   }
 
